@@ -25,7 +25,7 @@ dt = 0.1;
 t = (0:dt:SimTime)';
 nt = numel(t);
 
-%% Master and Slave Initial States
+%% Master and Slave Robots Initial States
 
 % master robot joints pod and vel :
 qm  = randn(2, 1);
@@ -38,29 +38,29 @@ dqs = zeros(2, 1);
 %% Allocate Memory for Loop Params
 
 % master robot control signal :
-Um = zeros(nt, 1);
+Um = zeros(nt, 2);
 
 % slave robot control signal :
-Us = zeros(nt, 1);
+Us = zeros(nt, 2);
 
 %% Simulate Robots
 
 for k = 1:nt
     % master side :
-    Um(k, 1) = app.master_controller(t(k), qm, dqm);
+    Um(k, :) = app.master_controller(t(k), qm, dqm);
     Mm  = masterRobot.robot.get_mass_matrix(qm);
     Cm  = masterRobot.robot.get_coriolis(qm, dqm);
     Gm  = masterRobot.robot.get_graviry(qm);
-    ddqm = Mm \ (Um(k, 1) - Cm * dqm - Gm);
+    ddqm = Mm \ (Um(k, :)' - Cm * dqm - Gm);
     dqm  = ddqm * dt + dqm;
     qm   = dqm  * dt + qm;
 
     % slave side :
-    Us(k, 1) = app.slave_controller(qs, dqs, qm, dqm, ddqm);
+    Us(k, :) = app.slave_controller(qs, dqs, qm, dqm, ddqm);
     Ms  = slaveRobot.robot.get_mass_matrix(qs);
     Cs  = slaveRobot.robot.get_coriolis(qs, dqs);
     Gs  = slaveRobot.robot.get_graviry(qs);
-    ddqs = Ms \ (Us(k, 1) - Cs * dqs - Gs);
+    ddqs = Ms \ (Us(k, :)' - Cs * dqs - Gs);
     dqs  = ddqs * dt + dqs;
     qs   = dqs  * dt + qs;
 
@@ -75,5 +75,21 @@ for k = 1:nt
 end
 
 %% Plots and Results
+
+% plot control signals :
+figure
+subplot(2, 1, 1)
+plot(t, Um, 'LineWidth', 1.5)
+title('Master Robot Control Signal')
+xlabel('t [sec]')
+ylabel('U_m(t)')
+legend('U_{m1}(t)', 'U_{m2}(t)')
+
+subplot(2, 1, 2)
+plot(t, Us, 'LineWidth', 1.5)
+title('Slave Robot Control Signal')
+xlabel('t [sec]')
+ylabel('U_s(t)')
+legend('U_{s1}(t)', 'U_{s2}(t)')
 
 
