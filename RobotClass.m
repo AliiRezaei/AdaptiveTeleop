@@ -63,13 +63,21 @@ classdef RobotClass
             J(2, 1) =   cos(q(1) + q(2));
 
         end
-        
+
         function X = get_ee_pos(obj, q)
 
             X = zeros(2, 1);
             X(1, 1) =  obj.l1 * cos(q(1)) + obj.l2 * cos(q(1) + q(2));
             X(2, 1) =  obj.l1 * sin(q(1)) + obj.l2 * sin(q(1) + q(2));
+
+        end
+
+        function dX = get_ee_vel(obj, q)
             
+            X = obj.get_ee_pos(q);
+            J = obj.get_body_jacobian(q);
+            dX = J * X;
+
         end
 
     end
