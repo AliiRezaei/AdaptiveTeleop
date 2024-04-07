@@ -85,13 +85,13 @@ plot(t, Um, 'LineWidth', 1.5)
 title('Master Robot Control Signal')
 xlabel('t [sec]')
 ylabel('U_m(t)')
-legend('U_{m1}(t)', 'U_{m2}(t)', 'interpreter', 'latex')
+legend('$U_{m1}(t)$', '$U_{m2}(t)$', 'interpreter', 'latex')
 
 subplot(2, 1, 2)
 plot(t, Us, 'LineWidth', 1.5)
 title('Slave Robot Control Signal')
 xlabel('t [sec]')
 ylabel('U_s(t)')
-legend('U_{s1}(t)', 'U_{s2}(t)', 'interpreter', 'latex')
+legend('$U_{s1}(t)$', '$U_{s2}(t)$', 'interpreter', 'latex')
 
 
