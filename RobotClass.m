@@ -9,12 +9,21 @@ classdef RobotClass
         lc2;
         I1;
         I2;
+        g;
     end
 
     methods
 
         % Constructor :
-        function obj = RobotClass()
+        function obj = RobotClass(varargin)
+
+            if nargin < 1
+                obj.set_default_config();
+            elseif nargin == 1
+                obj.set_config(varargin);
+            else
+                error('Something Wrong!')
+            end
 
         end
 
@@ -73,7 +82,7 @@ classdef RobotClass
         end
 
         function dX = get_ee_vel(obj, q)
-            
+
             X = obj.get_ee_pos(q);
             J = obj.get_body_jacobian(q);
             dX = J * X;
