@@ -18,7 +18,7 @@ classdef RobotClass
         function obj = RobotClass(varargin)
 
             if nargin < 1
-                obj.set_default_config();
+                obj = obj.set_default_config();
             elseif nargin == 1
                 obj.set_config(varargin);
             else
@@ -89,7 +89,7 @@ classdef RobotClass
 
         end
 
-        function obj = set_defult_config(obj)
+        function obj = set_default_config(obj)
             obj.m1  = 1;
             obj.m2  = 1;
             obj.l1  = 1;
@@ -113,7 +113,6 @@ classdef RobotClass
             obj.g   = config.g;
         end
 
-    end
-
+    end % end of methods
 
 end % end of RobotClass
