@@ -54,6 +54,16 @@ classdef RobotClass
 
         end
 
+        function J = get_body_jacobian(obj, q)
+
+            J = zeros(2, 2);
+            J(1, 1) = - obj.l1 * sin(q(1)) - obj.l2 * sin(q(1) + q(2));
+            J(1, 2) = - obj.l2 * sin(q(1) + q(2));
+            J(2, 1) =   obj.l1 * cos(q(1)) + obj.l2 * cos(q(1) + q(2));
+            J(2, 1) =   cos(q(1) + q(2));
+
+        end
+
     end
 
 
