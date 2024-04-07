@@ -21,7 +21,8 @@ nt = numel(t);
 qm  = randn(2, 1);
 dqm = zeros(2, 1);
 
-qs  = randn(2, 1);
+% qs  = randn(2, 1);
+qs = qm;
 dqs = zeros(2, 1);
 
 for k = 1:nt
@@ -35,8 +36,11 @@ for k = 1:nt
     qm   = dqm  * dt + qm;
 
     % slave side :
+    ddqs = app.slave_controller(qs, dqs, Um);
+    dqs  = ddqs * dt + dqs;
+    qs   = dqs  * dt + qs;
 
-    [line_handle_m, line_handle_s] = app.draw_robots(qm, qm);
+    [line_handle_m, line_handle_s] = app.draw_robots(qm, qs);
     drawnow
     if k ~= nt
         delete(line_handle_m{1});
