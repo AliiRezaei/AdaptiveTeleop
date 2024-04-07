@@ -20,7 +20,7 @@ slaveRobot.plotter = RobotPlotter(slaveRobot.robot, slaveRobot.base_pos);
 app = RobotApp(masterRobot, slaveRobot);
 
 % time vars :
-SimTime = 50;
+SimTime = 20;
 dt = 0.1;
 t = (0:dt:SimTime)';
 nt = numel(t);
@@ -64,7 +64,8 @@ for k = 1:nt
     dqs  = ddqs * dt + dqs;
     qs   = dqs  * dt + qs;
 
-    [line_handle_m, line_handle_s] = app.draw_robots(qm, qs);
+    [line_handle_m, line_handle_s] = app.draw_robots(t(k), qm, qs);
+    % app.real_time_draw()
     drawnow
     if k ~= nt
         delete(line_handle_m{1});
