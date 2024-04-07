@@ -15,7 +15,7 @@ classdef RobotClass
 
         % Constructor :
         function obj = RobotClass()
-            
+
         end
 
         function M = get_mass_matrix(obj, q)
@@ -40,6 +40,17 @@ classdef RobotClass
             C(1, 1) = - p3 * dq(2) * cos(q(2));
             C(1, 2) = - p3 * (dq(1) + dq(2)) * sin(q(2));
             C(2, 1) =   p3 * dq(1) * sin(q(2));
+
+        end
+
+        function G = get_graviry(obj, q)
+
+            p4 = obj.m1 * obj.lc2 + obj.m2 * obj.l1;
+            p5 = obj.m2 * obj.lc2;
+
+            G = zeros(2, 1);
+            G(1, 1) = p4 * obj.g * cos(q(1)) + p5 * obj.g * cos(q(1) + q(2));
+            G(2, 1) = p5 * obj.g * cos(q(1) + q(2));
 
         end
 
