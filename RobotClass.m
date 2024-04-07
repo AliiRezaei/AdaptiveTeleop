@@ -31,6 +31,18 @@ classdef RobotClass
             M(2, 2) = p2;
         end
 
+
+        function C = get_coriolis(obj, q, dq)
+
+            p3 = obj.m2 * obj.l1 * obj.lc2;
+
+            C = zeros(2, 2);
+            C(1, 1) = - p3 * dq(2) * cos(q(2));
+            C(1, 2) = - p3 * (dq(1) + dq(2)) * sin(q(2));
+            C(2, 1) =   p3 * dq(1) * sin(q(2));
+
+        end
+
     end
 
 
