@@ -3,17 +3,17 @@ clear
 close all
 
 masterRobot.robot = RobotClass();
-masterRobot_base_pos = [0; 0];
-masterRobot.plotter = RobotPlotter(masterRobot.robot, masterRobot_base_pos);
+masterRobot.base_pos = [0; 0];
+masterRobot.plotter = RobotPlotter(masterRobot.robot, masterRobot.base_pos);
 
 slaveRobot.robot = RobotClass();
-slaveRobot_base_pos = [0; 0];
-slaveRobot.plotter = RobotPlotter(slaveRobot.robot, slaveRobot_base_pos);
+slaveRobot.base_pos = [0; 0];
+slaveRobot.plotter = RobotPlotter(slaveRobot.robot, slaveRobot.base_pos);
 
 
 app = RobotApp(masterRobot, slaveRobot);
 
-SimTime = 10;
+SimTime = 50;
 dt = 0.1;
 t = (0:dt:SimTime)';
 nt = numel(t);
@@ -21,8 +21,7 @@ nt = numel(t);
 qm  = randn(2, 1);
 dqm = zeros(2, 1);
 
-% qs  = randn(2, 1);
-qs = qm;
+qs  = randn(2, 1);
 dqs = zeros(2, 1);
 
 for k = 1:nt
@@ -36,7 +35,11 @@ for k = 1:nt
     qm   = dqm  * dt + qm;
 
     % slave side :
-    ddqs = app.slave_controller(qs, dqs, Um);
+    Us = app.slave_controller(qs, dqs, qm, dqm, ddqm);
+    Ms  = slaveRobot.robot.get_mass_matrix(qs);
+    Cs  = slaveRobot.robot.get_coriolis(qs, dqs);
+    Gs  = slaveRobot.robot.get_graviry(qs);
+    ddqs = Ms \ (Us - Cs * dqs - Gs);
     dqs  = ddqs * dt + dqs;
     qs   = dqs  * dt + qs;
 
