@@ -1,14 +1,10 @@
 classdef RobotClass
 
     properties
-        m1;
-        m2;
-        l1;
-        l2;
-        lc1;
-        lc2;
-        I1;
-        I2;
+        m1; m2;
+        l1; l2;
+        lc1; lc2;
+        I1; I2;
         g;
     end
 
