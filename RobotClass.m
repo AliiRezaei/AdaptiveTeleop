@@ -89,6 +89,20 @@ classdef RobotClass
 
         end
 
+        function obj = set_defult_config(obj)
+            obj.m1  = 1;
+            obj.m2  = 1;
+            obj.l1  = 1;
+            obj.l2  = 1;
+            obj.lc1 = 0.5;
+            obj.lc2 = 0.5;
+            obj.I1  = 1/12;
+            obj.I2  = 1/12;
+            obj.g   = 9.81;
+        end
+
+        
+
     end
 
 
