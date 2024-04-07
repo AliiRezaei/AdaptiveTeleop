@@ -14,7 +14,7 @@ classdef RobotPlotter
 
         function line_hand = get_line_hand(obj, current_axes, q, varargin)
             joint_pos = [obj.robot.l1 * cos(q(1)); obj.robot.l1 * sin(q(1))] + obj.base_pos;
-            ee_pos = [obj.robot.l2 * cos(q(1) + q(2)); obj.robot.l2 * sin(q(1) + q(2))] + obj.base_pos;
+            ee_pos = obj.robot.get_ee_pos(q) + obj.base_pos;
 
             X = [obj.base_pos(1), joint_pos(1), ee_pos(1)];
             Y = [obj.base_pos(2), joint_pos(2), ee_pos(2)];
