@@ -98,14 +98,10 @@ classdef RobotClass
         end
 
         function obj = set_config(obj, config)
-            obj.m1  = config.m1;
-            obj.m2  = config.m2;
-            obj.l1  = config.l1;
-            obj.l2  = config.m2;
-            obj.lc1 = config.lc1;
-            obj.lc2 = config.lc2;
-            obj.I1  = config.I1;
-            obj.I2  = config.I2;
+            obj.m1  = config.m1;  obj.m2  = config.m2;
+            obj.l1  = config.l1;  obj.l2  = config.m2;
+            obj.lc1 = config.lc1; obj.lc2 = config.lc2;
+            obj.I1  = config.I1;  obj.I2  = config.I2;
             obj.g   = config.g;
         end
 
