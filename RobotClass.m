@@ -86,10 +86,11 @@ classdef RobotClass
         end
 
         function q = solve_ikine(obj, x, y)
-            
+
+            D = (x^2 + y^2 - obj.l1^2 - obj.l2^2) / (2 * obj.l1^1 * obj.l1^2);
             q    = zeros(2, 1);
-            q(2) = (x^2 + y^2 - obj.l1^2 - obj.l2^2) / (2 * obj.l1^1 * obj.l1^2);
-            q(1) = atan(y / x) - atan((obj.l2 * sin(q(2)) / (obj.l1 + obj.l2 * cos(q(2)))));
+            q(2) = atan2(sqrt(1-D^2), D);
+            q(1) = atan2(y, x) - atan2(obj.l2 * sin(q(2)), obj.l1 + obj.l2 * cos(q(2)));
 
         end
 
