@@ -18,11 +18,12 @@ slaveRobot.plotter = RobotPlotter(slaveRobot.robot, slaveRobot.base_pos);
 %% GUI Object and Time Vars
 
 % gui object :
-app = RobotApp(masterRobot, slaveRobot);
+usingMouse = false;
+app = RobotApp(masterRobot, slaveRobot, usingMouse);
 
 % time vars :
 SimTime = 20;
-dt = 0.1;
+dt = 0.05;
 t = (0:dt:SimTime)';
 nt = numel(t);
 
