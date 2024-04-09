@@ -19,15 +19,16 @@ slaveRobot.controller = RobotControl(slaveRobot.robot);
 
 %% GUI Object and Time Vars
 
+% time vars :
+SimTime = 20;
+dt = 0.001;
+t = (0:dt:SimTime)';
+nt = numel(t);
+
 % gui object :
 usingMouse = true;
 app = RobotApp(masterRobot, slaveRobot, usingMouse);
-
-% time vars :
-SimTime = 20;
-dt = 0.05;
-t = (0:dt:SimTime)';
-nt = numel(t);
+app.solver_precise = dt;
 
 %% Master and Slave Robots Initial States
 
@@ -48,10 +49,12 @@ Um = zeros(nt, 2);
 Us = zeros(nt, 2);
 
 %% Simulate Robots
-
+    
+a_hat_m = zeros(4, 1);
+plotSteps = [1:10:100, 101:100:nt];
 for k = 1:nt
     % master side :
-    Um(k, :) = app.master_controller(t(k), qm, dqm);
+    [Um(k, :), a_hat_m] = app.master_controller(t(k), qm, dqm, a_hat_m);
     Mm  = masterRobot.robot.get_mass_matrix(qm);
     Cm  = masterRobot.robot.get_coriolis(qm, dqm);
     Gm  = masterRobot.robot.get_graviry(qm);
@@ -68,32 +71,34 @@ for k = 1:nt
     dqs  = ddqs * dt + dqs;
     qs   = dqs  * dt + qs;
 
-    [line_handle_m, line_handle_s] = app.draw_robots(t(k), qm, qs);
-    drawnow
-    if k ~= nt
-        delete(line_handle_m{1});
-        delete(line_handle_m{2});
-        delete(line_handle_s{1});
-        delete(line_handle_s{2});
+    if ismember(k, plotSteps)
+        [line_handle_m, line_handle_s] = app.draw_robots(t(k), qm, qs);
+        drawnow
+        if k ~= nt
+            delete(line_handle_m{1});
+            delete(line_handle_m{2});
+            delete(line_handle_s{1});
+            delete(line_handle_s{2});
+        end
     end
 end
 
 %% Plots and Results
 
-% plot control signals :
-figure
-subplot(2, 1, 1)
-plot(t, Um, 'LineWidth', 1.5)
-title('Master Robot Control Signal')
-xlabel('t [sec]')
-ylabel('$U_m(t)$')
-legend('$U_{m1}(t)$', '$U_{m2}(t)$', 'interpreter', 'latex')
-
-subplot(2, 1, 2)
-plot(t, Us, 'LineWidth', 1.5)
-title('Slave Robot Control Signal')
-xlabel('t [sec]')
-ylabel('$U_s(t)$')
-legend('$U_{s1}(t)$', '$U_{s2}(t)$', 'interpreter', 'latex')
+% % plot control signals :
+% figure
+% subplot(2, 1, 1)
+% plot(t, Um, 'LineWidth', 1.5)
+% title('Master Robot Control Signal')
+% xlabel('t [sec]')
+% ylabel('$U_m(t)$')
+% legend('$U_{m1}(t)$', '$U_{m2}(t)$', 'interpreter', 'latex')
+% 
+% subplot(2, 1, 2)
+% plot(t, Us, 'LineWidth', 1.5)
+% title('Slave Robot Control Signal')
+% xlabel('t [sec]')
+% ylabel('$U_s(t)$')
+% legend('$U_{s1}(t)$', '$U_{s2}(t)$', 'interpreter', 'latex')
 
 
