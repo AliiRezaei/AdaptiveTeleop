@@ -6,7 +6,7 @@ classdef RobotControl
 
     methods
 
-        function obj  = RobotControl(robot, controller)
+        function obj  = RobotControl(robot)
             obj.robot = robot;
         end
 
