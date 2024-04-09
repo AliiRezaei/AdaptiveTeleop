@@ -9,11 +9,13 @@ set(0, 'defaultTextInterpreter', 'latex');
 masterRobot.robot = RobotClass();
 masterRobot.base_pos = [0; 0];
 masterRobot.plotter = RobotPlotter(masterRobot.robot, masterRobot.base_pos);
+masterRobot.controller = RobotControl();
 
 % slave robot :
 slaveRobot.robot = RobotClass();
 slaveRobot.base_pos = [0; 0];
 slaveRobot.plotter = RobotPlotter(slaveRobot.robot, slaveRobot.base_pos);
+slaveRobot.controller = RobotControl();
 
 %% GUI Object and Time Vars
 
