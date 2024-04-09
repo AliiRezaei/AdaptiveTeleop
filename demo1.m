@@ -19,15 +19,16 @@ slaveRobot.controller = RobotControl(slaveRobot.robot);
 
 %% GUI Object and Time Vars
 
-% gui object :
-usingMouse = false;
-app = RobotApp(masterRobot, slaveRobot, usingMouse);
-
 % time vars :
 SimTime = 20;
-dt = 0.05;
+dt = 0.00001;
 t = (0:dt:SimTime)';
 nt = numel(t);
+
+% gui object :
+usingMouse = true;
+app = RobotApp(masterRobot, slaveRobot, usingMouse);
+app.solver_precise = dt;
 
 %% Master and Slave Robots Initial States
 
@@ -49,9 +50,10 @@ Us = zeros(nt, 2);
 
 %% Simulate Robots
 
+a_hat = zeros(4, 1);
 for k = 1:nt
     % master side :
-    Um(k, :) = app.master_controller(t(k), qm, dqm);
+    [Um(k, :), a_hat] = app.master_controller(t(k), qm, dqm, a_hat);
     Mm  = masterRobot.robot.get_mass_matrix(qm);
     Cm  = masterRobot.robot.get_coriolis(qm, dqm);
     Gm  = masterRobot.robot.get_graviry(qm);
@@ -68,15 +70,15 @@ for k = 1:nt
     dqs  = ddqs * dt + dqs;
     qs   = dqs  * dt + qs;
 
-    [line_handle_m, line_handle_s] = app.draw_robots(t(k), qm, qs);
-    % app.real_time_draw()
-    drawnow
-    if k ~= nt
-        delete(line_handle_m{1});
-        delete(line_handle_m{2});
-        delete(line_handle_s{1});
-        delete(line_handle_s{2});
-    end
+    % [line_handle_m, line_handle_s] = app.draw_robots(t(k), qm, qs);
+    % % app.real_time_draw()
+    % drawnow
+    % if k ~= nt
+    %     delete(line_handle_m{1});
+    %     delete(line_handle_m{2});
+    %     delete(line_handle_s{1});
+    %     delete(line_handle_s{2});
+    % end
 end
 
 %% Plots and Results
