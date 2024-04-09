@@ -1,2 +1,2 @@
 # AdaptiveTeleop
-bilateral adaptive control of two manipulator
+bilateral adaptive control of two manipulators
