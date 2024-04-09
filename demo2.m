@@ -29,11 +29,11 @@ nt = numel(t);
 
 %% Master and Slave Robots Initial States
 
-% master robot joints pod and vel :
+% master robot joints pos and vel :
 qm  = randn(2, 1);
 dqm = zeros(2, 1);
 
-% slave robot joints pod and vel :
+% slave robot joints pos and vel :
 qs  = randn(2, 1);
 dqs = zeros(2, 1);
 

@@ -10,13 +10,13 @@ classdef RobotControl
             obj.robot = robot;
         end
 
-        function u = FeedbackLinearization(obj, q, dq)
+        function u = FeedbackLinearization(obj, q, dq, q_des, dq_des, ddq_des)
             M = obj.robot.get_mass_matrix(q);
             C = obj.robot.get_coriolis(q, dq);
             G = obj.robot.get_graviry(q);
 
             e  = q_des  - q;
-            de = dm_des - dq;
+            de = dq_des - dq;
 
             k1 = eye(2);
             k2 = eye(2);
