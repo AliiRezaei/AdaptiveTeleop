@@ -21,7 +21,7 @@ slaveRobot.controller = RobotControl(slaveRobot.robot);
 
 % time vars :
 SimTime = 20;
-dt = 0.001;
+dt = 0.0003;
 t = (0:dt:SimTime)';
 nt = numel(t);
 
