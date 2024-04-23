@@ -38,7 +38,7 @@ classdef RobotControl
             ddq_r = ddq_des - Lambda * dq_tilde;
 
             s = dq_tilde + Lambda * q_tilde;
-            Y = obj.AdaptiveRegressor(q, dq, dq_r, ddq_r);
+            Y = obj.Regressor(q, dq, dq_r, ddq_r);
             
             da_hat = - Gamma * Y' * s;
             a_hat = da_hat * dt + a_hat_last;
@@ -46,7 +46,7 @@ classdef RobotControl
             u = Y * a_hat - Kd * s;
         end
 
-        function Y = AdaptiveRegressor(~, q, dq, dq_r, ddq_r)
+        function Y = Regressor(~, q, dq, dq_r, ddq_r)
             Y = zeros(2, 4);
             Y(1, 1) = ddq_r(1);
             Y(1, 2) = ddq_r(2);
